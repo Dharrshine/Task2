@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COVID-19 Quiz</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="container">
+        <h1 class="title">Covid Quiz</h1>
+        <img id="thumbnail" src="https://s3-eu-central-1.amazonaws.com/centaur-wp/marketingweek/prod/content/uploads/2020/03/17145138/shutterstock_1658813662-750x500.jpg" alt="">
+        <button id="start"> Start Quiz</button>
+
+        <div class="hide" id="quiz">
+
+            <h1 class="questions"></h1>
+            <li class="options"></li>
+            <li class="options"></li>
+            <li class="options"></li>
+            <li class="options"></li>
+
+            <button id="previous">Previous</button>
+            <span id="status"></span>
+            <button id ="next" >Next</button>
+        </div>
+
+        <div id="end" class="hide">
+            <h1>Your score is</h1>
+            <span id="scores" ></span>
+        </div>
+
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
