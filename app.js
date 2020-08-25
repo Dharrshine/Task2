@@ -137,11 +137,7 @@ let allAnswered = false;
 let selected = false;
 
 start.addEventListener("click", () => {
- setTimeout(function(){ 
-     start.classList.add("hide"); 
-     thumbnail.classList.add("hide"); 
-     quiz.classList.remove("hide");
-  }, 150);
+  init();
   index = 0;
   fillContent(index);
 });
@@ -193,6 +189,14 @@ options.forEach((opt, i) => {
   });
 
 });
+
+function init(){
+  setTimeout(function(){ 
+  start.classList.add("hide"); 
+  thumbnail.classList.add("hide"); 
+  quiz.classList.remove("hide");
+}, 150);
+}
 
 function reset(){
   if(data[index].status){
