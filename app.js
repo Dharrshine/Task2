@@ -121,6 +121,7 @@ let data = [
   },
 ];
 
+let highScores = JSON.parse(localStorage.getItem("highScores")) || [];
 let start = document.querySelector("#start");
 let thumbnail = document.querySelector("#thumbnail");
 let quiz = document.querySelector("#quiz");
@@ -131,100 +132,143 @@ let next = document.querySelector("#next");
 let status = document.querySelector("#status");
 let scores = document.querySelector("#scores");
 let end = document.querySelector("#end");
+let playerInput = document.querySelector("#playerInput");
+let name = document.querySelector("#name");
+let highScoresBtn = document.querySelector("#highScoresBtn");
+let scoreDisplay = document.querySelector("#scoreDisplay");
+let scoreDisplayTable = document.querySelectorAll("#table");
+let clock = document.querySelector("#timer");
+let navbar = document.querySelector("#navbar");
+let navBlocks = document.querySelectorAll("#navbar span");
+const time_in_minutes = 3;
+let finish = false;
+let current_time;
+let deadline;
+let date;
 let index;
 let score = 0;
 let allAnswered = false;
 let selected = false;
+let c = 0;
 
 start.addEventListener("click", () => {
-  init();
-  index = 0;
-  fillContent(index);
+  if(playerInput.value){
+    setTimeout(function(){ 
+      init();
+    }, 150);
+    index = 0;
+    shuffle(data);
+    fillContent(index);
+  }else{
+    pop();
+  }
 });
 
 next.addEventListener("click", () => {
-  if(index!=9){
-      index++;
-      fillContent(index);
-  }
-  reset(index);
+    if(index!=9){
+        index++;
+        fillContent(index);
+    }
+    reset(index);
 });
 
 previous.addEventListener("click", () => {
-  if(index!=0){
-      index--;
-      fillContent(index);
-  }
-  reset(index);
+    if(index!=0){
+        index--;
+        fillContent(index);
+    }
+    reset(index);
 });
 
+highScoresBtn.addEventListener("click", () => {
+  end.classList.add("hide");
+  highScoresBtn.classList.add("hide");
+  displayHighScore();
+});
 
+navBlocks.forEach((block, i) => {
+  block.addEventListener(("click"), () => {
+    removeHighlight();
+    block.classList.add("selected");
+    index = i;
+    fillContent(i);
+    reset(i);
+  });
+});
 
 options.forEach((opt, i) => {
 
-  opt.addEventListener("click", () => {
-      if(!selected){
-          if(opt.textContent === data[index].answer){
-              opt.classList.add("correct");
-              selected = true;
-              status.textContent = "CORRECT";
-              data[index].status = "correct";
-              data[index].selected = i;
-              score++;
-          }
-          else {
-              opt.classList.add("wrong");
-              status.textContent = "WRONG";
-              selected = true;
-              data[index].status = "wrong";
-              data[index].selected = i;
-              correctOptionDisplay();
-          }
-      }
-      checkAllAnswered();
-      if(allAnswered){
-          endQuiz();
-      }
-      
-  });
+    opt.addEventListener("click", () => {
+        if(!selected){
+            if(opt.textContent === data[index].answer){
+                opt.classList.add("correct");
+                navBlocks[index].classList.add("correct");
+                selected = true;
+                status.textContent = "CORRECT";
+                data[index].status = "correct";
+                data[index].selected = i;
+                score++;
+            }
+            else {
+                opt.classList.add("wrong");
+                navBlocks[index].classList.add("wrong");
+                status.textContent = "WRONG";
+                selected = true;
+                data[index].status = "wrong";
+                data[index].selected = i;
+                correctOptionDisplay();
+            }
+        }
+        checkAllAnswered();
+        if(allAnswered){
+            finish = true;
+        }        
+    });
 
 });
 
 function init(){
-  setTimeout(function(){ 
   start.classList.add("hide"); 
   thumbnail.classList.add("hide"); 
   quiz.classList.remove("hide");
-}, 150);
+  playerInput.classList.add("hide");
+  highScoresBtn.classList.add("hide");
+  clock.classList.remove("hide");
+  navbar.classList.remove("hide");
+  current_time = Date.parse(new Date());
+  deadline = new Date(current_time + time_in_minutes*60*1000);
+  run_clock(deadline);
 }
 
 function reset(){
-  if(data[index].status){
-      selected = true;
-  }
-  else{
-      selected = false;
-  }
-  restoreData();
+    if(data[index].status){
+        selected = true;
+    }
+    else{
+        selected = false;
+    }
+    restoreData();
 }
 
 function restoreData(){
-  status.textContent = (data[index].status).toUpperCase();
-  options.forEach((opt, i) => {
-      opt.classList.remove("wrong");
-      opt.classList.remove("correct");
-      if(String(data[index].selected) === String(i)){
-          opt.classList.add(data[index].status);
-          correctOptionDisplay();
-      }
-  });
+    status.textContent = (data[index].status).toUpperCase();
+    removeHighlight();
+    navBlocks[index].classList.add("selected");
+    options.forEach((opt, i) => {
+        opt.classList.remove("wrong");
+        opt.classList.remove("correct");
+        if(String(data[index].selected) === String(i)){
+            opt.classList.add(data[index].status);
+            correctOptionDisplay();
+        }
+    });
 }
 
 function fillContent(num){
-  questions.textContent = (num + 1) + ") " + data[num].question; 
-  options.forEach((opt, i) => {
-      opt.textContent = data[num].options[i];
-  });
+    questions.textContent = (num + 1) + ") " + data[num].question; 
+    options.forEach((opt, i) => {
+        opt.textContent = data[num].options[i];
+    });
 }
 
 function correctOptionDisplay(){
@@ -236,20 +280,96 @@ function correctOptionDisplay(){
 }
 
 function checkAllAnswered(){
-  let flag = 1;
-  data.forEach((ques) => {
-      if(ques.selected === "")
-      flag = 0;
-  });
-  if(flag){
-      allAnswered = true;
-  }
+    let flag = 1;
+    data.forEach((ques) => {
+        if(ques.selected === "")
+        flag = 0;
+    });
+    if(flag){
+        allAnswered = true;
+    }
 }
 
 function endQuiz(){
-  setTimeout(function(){ 
-      quiz.classList.add("hide");
-      end.classList.remove("hide");
-   }, 500);
-  scores.textContent = `${score}/10`;
+  navbar.classList.add("hide");
+    quiz.classList.add("hide");
+    end.classList.remove("hide");
+    highScoresBtn.classList.remove("hide");
+    name.textContent = playerInput.value;
+    scores.textContent = `${score}/10`;
+    setHighScore();
+}
+
+function shuffle(array) {
+  var currentIndex = array.length, temporaryValue, randomIndex;
+  while (0 !== currentIndex) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+  return array;
+}
+
+function setHighScore(){
+  let date = new Date();
+  let value = {
+    name: playerInput.value,
+    mark: score,
+    day: date.getDate() +"/" + date.getMonth() + "/" + date.getFullYear()
+  };
+  highScores.push(value);
+  highScores.sort((a,b) => {
+    return b.mark - a.mark
+  });
+  localStorage.setItem("highScores",JSON.stringify(highScores));
+}
+
+function displayHighScore(){
+  let tr;
+  clock.classList.add("hide");
+  scoreDisplay.classList.remove("hide");
+  highScores.forEach((val) => {
+    tr = document.createElement("tr");
+    tr.innerHTML = `<td>${val.name}</td><td>${val.mark}/10</td><td>${val.day}</td>`;
+    scoreDisplayTable[0].appendChild(tr);
+  });
+}
+
+function removeHighlight(){
+  navBlocks.forEach((block) => {
+    block.classList.remove("selected");
+  })
+}
+
+function pop(){
+  if(c == 0){
+    document.querySelector("#box").style.display = "block";
+    c = 1;
+  }else{
+    document.querySelector("#box").style.display = "none";
+    c = 0;
+  }
+}
+
+function time_remaining(endtime){
+  let t = Date.parse(endtime) - Date.parse(new Date());
+  let seconds = Math.floor( (t/1000) % 60 );
+  let minutes = Math.floor( (t/1000/60) % 60 );
+  return {'total':t,'minutes':minutes, 'seconds':seconds};
+}
+
+function run_clock(endtime){  
+  function update_clock(){
+    let t = time_remaining(endtime);
+    t.seconds = t.seconds < 10 ? '0' + t.seconds : t.seconds;
+    clock.innerHTML = t.minutes+':'+t.seconds;
+    if(t.total<=0 || finish){ 
+      clearInterval(timeinterval);
+      endQuiz(); 
+    }
+  }
+  update_clock(); // run function once at first to avoid delay
+  let timeinterval = setInterval(update_clock,1000);
 }
