@@ -95,7 +95,7 @@ html, body {
   margin: 45px auto;
   padding: 10px 20px;
   display: block;
-  background-color: #b79fe8;;
+  background-color: #b79fe8;
   font-size: 50px;
   color: #2e1621;
   border: none;
@@ -105,12 +105,12 @@ html, body {
   transition: 300ms;
 }
 
-#start:hover{
+#start:hover, #submit:hover{
   cursor: pointer;
   box-shadow: 0 0 10px 6px #af8ff2;
 }
 
-#previous, #next{
+#previous, #next, #submit{
   font-size: 25px;
   outline: none;
   border: none;
@@ -118,6 +118,12 @@ html, body {
   padding: 5px 10px;
   border-radius: 5px;
   margin: 20px auto;
+}
+
+#submit{
+  background-color: #b79fe8;
+  color: white;
+  margin-left: 10px;
 }
 
 #previous:hover, #next:hover{
