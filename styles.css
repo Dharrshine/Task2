@@ -154,7 +154,7 @@ html, body {
   transition: 300ms;
 }
 
-#start:hover, #highScoresBtn:hover{
+#start:hover, #highScoresBtn:hover, #submit:hover{
   cursor: pointer;
   box-shadow: 0 0 10px 6px #af8ff2;
 }
@@ -163,7 +163,7 @@ html, body {
   font-size: 35px;
 }
 
-#previous, #next{
+#previous, #next, #submit{
   font-size: 25px;
   outline: none;
   border: none;
@@ -171,6 +171,12 @@ html, body {
   padding: 5px 10px;
   border-radius: 5px;
   margin: 20px auto;
+}
+
+#submit{
+  background-color: #b79fe8;
+  color: white;
+  margin-left: 10px;
 }
 
 #previous:hover, #next:hover{
