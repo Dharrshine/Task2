@@ -144,6 +144,7 @@ let navBlocks = document.querySelectorAll("#navbar span");
 const time_in_minutes = 3;
 let finish = false;
 let current_time;
+let finishTime;
 let deadline;
 let date;
 let index;
@@ -322,7 +323,8 @@ function setHighScore(){
   let value = {
     name: playerInput.value,
     mark: score,
-    day: date.getDate() +"/" + date.getMonth() + "/" + date.getFullYear()
+    day: date.getDate() +"/" + date.getMonth() + "/" + date.getFullYear(),
+    time: finishTime
   };
   highScores.push(value);
   highScores.sort((a,b) => {
@@ -337,7 +339,7 @@ function displayHighScore(){
   scoreDisplay.classList.remove("hide");
   highScores.forEach((val) => {
     tr = document.createElement("tr");
-    tr.innerHTML = `<td>${val.name}</td><td>${val.mark}/10</td><td>${val.day}</td>`;
+    tr.innerHTML = `<td>${val.name}</td><td>${val.mark}/10</td><td>${val.mark}:${10-val.mark}</td><td>${val.day}</td><td>${val.time}</td>`;
     scoreDisplayTable[0].appendChild(tr);
   });
 }
@@ -372,6 +374,7 @@ function run_clock(endtime){
     clock.innerHTML = t.minutes+':'+t.seconds;
     if(t.total<=0 || finish){ 
       clearInterval(timeinterval);
+      finishTime = t.minutes + ":" + t.seconds;
       endQuiz(); 
     }
   }
