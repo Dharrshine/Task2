@@ -117,6 +117,7 @@ html, body {
 }
 
 .close{
+  cursor: pointer;
   padding: 5px 7px;
   border-radius: 5px;
   font-size: 18px;
@@ -189,6 +190,21 @@ cursor: pointer;
   display: inline-block;
   width: 30%;
   font-size: 1.5rem;
+}
+
+#back{
+  font-size: 25px;
+  padding: 5px 10px;
+  border-radius: 8px;
+  background-color: #5becff;;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  margin-bottom: 15px;
+}
+
+#back:hover{
+  box-shadow: 0 0 10px 2px #1cdaf1;
 }
 
 #end h1, #scoreDisplay h1{

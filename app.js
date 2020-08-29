@@ -136,6 +136,7 @@ let end = document.querySelector("#end");
 let playerInput = document.querySelector("#playerInput");
 let name = document.querySelector("#name");
 let highScoresBtn = document.querySelector("#highScoresBtn");
+let backBtn = document.querySelector("#back");
 let scoreDisplay = document.querySelector("#scoreDisplay");
 let scoreDisplayTable = document.querySelectorAll("#table");
 let clock = document.querySelector("#timer");
@@ -190,6 +191,13 @@ highScoresBtn.addEventListener("click", () => {
   end.classList.add("hide");
   highScoresBtn.classList.add("hide");
   displayHighScore();
+});
+
+backBtn.addEventListener("click", () => {
+  scoreDisplay.classList.add("hide");
+  clock.classList.remove("hide");
+  end.classList.remove("hide");
+  highScoresBtn.classList.remove("hide");
 });
 
 navBlocks.forEach((block, i) => {
