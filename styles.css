@@ -181,4 +181,9 @@ cursor: pointer;
     text-align: center;
     width: auto;
   }
+
+  #submit{
+    display: block;
+    margin: 5px auto;
+  }
 }
