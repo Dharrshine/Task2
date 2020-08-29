@@ -131,6 +131,7 @@ let next = document.querySelector("#next");
 let status = document.querySelector("#status");
 let scores = document.querySelector("#scores");
 let end = document.querySelector("#end");
+let submit = document.querySelector("#submit");
 let index;
 let score = 0;
 let allAnswered = false;
@@ -158,7 +159,9 @@ previous.addEventListener("click", () => {
   reset(index);
 });
 
-
+submit.addEventListener("click", () => {
+  endQuiz();
+});
 
 options.forEach((opt, i) => {
 
