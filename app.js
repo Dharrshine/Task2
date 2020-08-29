@@ -131,6 +131,7 @@ let previous = document.querySelector("#previous");
 let next = document.querySelector("#next");
 let status = document.querySelector("#status");
 let scores = document.querySelector("#scores");
+let submit = document.querySelector("#submit");
 let end = document.querySelector("#end");
 let playerInput = document.querySelector("#playerInput");
 let name = document.querySelector("#name");
@@ -178,6 +179,10 @@ previous.addEventListener("click", () => {
         fillContent(index);
     }
     reset(index);
+});
+
+submit.addEventListener("click", () => {
+  finish = true;
 });
 
 highScoresBtn.addEventListener("click", () => {
