@@ -164,7 +164,7 @@ html, body {
   font-size: 35px;
 }
 
-#previous, #next, #submit{
+#previous, #next, #submit, #reset{
   font-size: 25px;
   outline: none;
   border: none;
@@ -174,13 +174,18 @@ html, body {
   margin: 20px auto;
 }
 
+#reset{
+  margin: 0 auto 10px auto;
+  font-size: 30px;
+}
+
 #submit{
   background-color: #b79fe8;
   color: white;
   margin-left: 10px;
 }
 
-#previous:hover, #next:hover{
+#previous:hover, #next:hover, #reset:hover{
 box-shadow: 0 0 10px 3px #df417cba;
 transition: 200ms;
 cursor: pointer;

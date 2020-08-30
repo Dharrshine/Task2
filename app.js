@@ -137,21 +137,22 @@ let playerInput = document.querySelector("#playerInput");
 let name = document.querySelector("#name");
 let highScoresBtn = document.querySelector("#highScoresBtn");
 let backBtn = document.querySelector("#back");
+let resetBtn = document.querySelector("#reset");
 let scoreDisplay = document.querySelector("#scoreDisplay");
 let scoreDisplayTable = document.querySelectorAll("#table");
 let clock = document.querySelector("#timer");
 let navbar = document.querySelector("#navbar");
 let navBlocks = document.querySelectorAll("#navbar span");
 const time_in_minutes = 3;
-let finish = false;
+let finish;
 let current_time;
 let finishTime;
 let deadline;
 let date;
 let index;
-let score = 0;
-let allAnswered = false;
-let selected = false;
+let score;
+let allAnswered;
+let selected;
 let c = 0;
 
 start.addEventListener("click", () => {
@@ -160,6 +161,10 @@ start.addEventListener("click", () => {
       init();
     }, 150);
     index = 0;
+    score = 0;
+    finish = false;
+    allAnswered = false;
+    selected = false;
     shuffle(data);
     fillContent(index);
   }else{
@@ -190,6 +195,7 @@ submit.addEventListener("click", () => {
 highScoresBtn.addEventListener("click", () => {
   end.classList.add("hide");
   highScoresBtn.classList.add("hide");
+  resetBtn.classList.add("hide");
   displayHighScore();
 });
 
@@ -198,6 +204,28 @@ backBtn.addEventListener("click", () => {
   clock.classList.remove("hide");
   end.classList.remove("hide");
   highScoresBtn.classList.remove("hide");
+  resetBtn.classList.remove("hide");
+});
+
+resetBtn.addEventListener("click", () => {
+  end.classList.add("hide");
+  highScoresBtn.classList.add("hide");
+  resetBtn.classList.add("hide");
+  thumbnail.classList.remove("hide");
+  playerInput.classList.remove("hide");
+  start.classList.remove("hide");
+  clock.classList.add("hide");
+  playerInput.value = "";
+  data.forEach((ques) =>{
+    ques.status = "";
+    ques.selected = "";
+  });
+  navBlocks.forEach((block) => {
+    block.classList.remove("correct");
+    block.classList.remove("wrong");
+  });
+  index = 0;
+  reset(index);
 });
 
 navBlocks.forEach((block, i) => {
@@ -247,6 +275,7 @@ function init(){
   quiz.classList.remove("hide");
   playerInput.classList.add("hide");
   highScoresBtn.classList.add("hide");
+  resetBtn.classList.add("hide");
   clock.classList.remove("hide");
   navbar.classList.remove("hide");
   current_time = Date.parse(new Date());
@@ -309,6 +338,7 @@ function endQuiz(){
     quiz.classList.add("hide");
     end.classList.remove("hide");
     highScoresBtn.classList.remove("hide");
+    resetBtn.classList.remove("hide");
     name.textContent = playerInput.value;
     scores.textContent = `${score}/10`;
     setHighScore();
