@@ -205,6 +205,10 @@ backBtn.addEventListener("click", () => {
   end.classList.remove("hide");
   highScoresBtn.classList.remove("hide");
   resetBtn.classList.remove("hide");
+  let scoreDisplayTableTr = document.querySelectorAll(".tr");
+  scoreDisplayTableTr.forEach((tr) => {
+    tr.remove();
+  });
 });
 
 resetBtn.addEventListener("click", () => {
@@ -378,6 +382,7 @@ function displayHighScore(){
   highScores.forEach((val) => {
     tr = document.createElement("tr");
     tr.innerHTML = `<td>${val.name}</td><td>${val.mark}/10</td><td>${val.mark}:${10-val.mark}</td><td>${val.day}</td><td>${val.time}</td>`;
+    tr.className = "tr";
     scoreDisplayTable[0].appendChild(tr);
   });
 }
